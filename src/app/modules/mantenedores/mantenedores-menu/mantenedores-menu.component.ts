@@ -3,11 +3,10 @@ import { HeaderComponent } from '../../../components/header/header/header.compon
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-mantenedores-menu',
-  standalone: true,
-  imports: [HeaderComponent, RouterLink],
-  templateUrl: './mantenedores-menu.component.html',
-  styleUrl: './mantenedores-menu.component.css'
+    selector: 'app-mantenedores-menu',
+    imports: [HeaderComponent, RouterLink],
+    templateUrl: './mantenedores-menu.component.html',
+    styleUrl: './mantenedores-menu.component.css'
 })
 export class MantenedoresMenuComponent {
 

@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-asistencia',
-  standalone: true,
-  imports: [RouterLink],
-  templateUrl: './asistencia.component.html',
-  styleUrl: './asistencia.component.css'
+    selector: 'app-asistencia',
+    imports: [RouterLink],
+    templateUrl: './asistencia.component.html',
+    styleUrl: './asistencia.component.css'
 })
 export class AsistenciaComponent implements OnInit{
 

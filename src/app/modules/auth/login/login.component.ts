@@ -5,11 +5,10 @@ import { ToastService } from '../../../services/toasteMessage/toast.service';
 import { AuthService } from '../../../services/Auth/auth.service';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [RouterLink, ReactiveFormsModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+    selector: 'app-login',
+    imports: [RouterLink, ReactiveFormsModule],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit{
   logInForm!: FormGroup;

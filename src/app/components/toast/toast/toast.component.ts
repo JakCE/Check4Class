@@ -3,11 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { Toast, ToastService } from '../../../services/toasteMessage/toast.service';
 
 @Component({
-  selector: 'app-toast',
-  standalone: true,
-  imports: [NgSwitchCase, NgClass, NgSwitch, NgFor],
-  templateUrl: './toast.component.html',
-  styleUrl: './toast.component.css'
+    selector: 'app-toast',
+    imports: [NgSwitchCase, NgClass, NgSwitch, NgFor],
+    templateUrl: './toast.component.html',
+    styleUrl: './toast.component.css'
 })
 export class ToastComponent implements OnInit{
   toasts: Toast[] = [];
