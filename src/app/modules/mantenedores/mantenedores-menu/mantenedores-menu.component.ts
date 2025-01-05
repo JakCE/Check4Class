@@ -3,12 +3,12 @@ import { HeaderComponent } from '../../../components/header/header/header.compon
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-mantenedores-menu',
   standalone: true,
   imports: [HeaderComponent, RouterLink],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  templateUrl: './mantenedores-menu.component.html',
+  styleUrl: './mantenedores-menu.component.css'
 })
-export class RegisterComponent {
+export class MantenedoresMenuComponent {
 
 }

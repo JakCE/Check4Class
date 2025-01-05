@@ -1,0 +1,44 @@
+<app-header></app-header>
+
+<div class="w-full block justify-center items-center">
+    <div class="px-10 pt-10">
+        <button routerLink="/app" type="button" class="text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-sky-800">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left me-2 font-bold" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+            </svg>
+            Regresar
+        </button>
+    </div>
+</div>
+<div class="w-full h-auto grid grid-cols-2 p-10 gap-5">
+    <div class="w-full flex justify-center items-center my-2">
+        <div class="w-28 h-auto block justify-center items-center cursor-pointer transform transition-transform duration-300 hover:scale-110" routerLink="/register">
+            <div class="w-28 h-28 border rounded-xl shadow-xl">
+                <img src="./img-dashboard/gerencia-oficial.svg" alt="" class="w-full h-full p-6">
+            </div>
+            <div class="w-full mt-5 text-center">
+                <p class="w-full text-green-600 font-bold text-sm">Usuarios</p>
+            </div>
+        </div>
+    </div>
+    <div class="w-full flex justify-center items-center my-2">
+        <div class="w-28 h-auto block justify-center items-center cursor-pointer transform transition-transform duration-300 hover:scale-110" routerLink="/niveles">
+            <div class="w-28 h-28 border rounded-xl shadow-xl">
+                <img src="./img-dashboard/formacion-oficial.svg" alt="" class="w-full h-full p-6">
+            </div>
+            <div class="w-full mt-5 text-center">
+                <p class="w-full text-green-600 font-bold text-sm">Grados y Niveles</p>
+            </div>
+        </div>
+    </div>
+    <div class="w-full flex justify-center items-center my-2">
+        <div class="w-28 h-auto block justify-center items-center cursor-pointer transform transition-transform duration-300 hover:scale-110">
+            <div class="w-28 h-28 border rounded-xl shadow-xl">
+                <img src="./img-dashboard/mejora_continua-oficial.svg" alt="" class="w-full h-full p-6">
+            </div>
+            <div class="w-full mt-5 text-center">
+                <p class="w-full text-green-600 font-bold text-sm">Otros</p>
+            </div>
+        </div>
+    </div>
+</div>

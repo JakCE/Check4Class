@@ -11,7 +11,9 @@ export class AuthService {
     private supabaseClient: SupabaseService
   ) { }
 
-  session(){}
+  session(){
+    return this.supabaseClient.supabaseClient.auth.getSession();
+  }
   
   signUp(credentials: SignUpWithPasswordCredentials){
     return this.supabaseClient.supabaseClient.auth.signUp(credentials);

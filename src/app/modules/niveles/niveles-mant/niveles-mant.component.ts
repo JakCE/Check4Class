@@ -3,12 +3,12 @@ import { HeaderComponent } from '../../../components/header/header/header.compon
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-niveles-mant',
   standalone: true,
   imports: [HeaderComponent, RouterLink],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  templateUrl: './niveles-mant.component.html',
+  styleUrl: './niveles-mant.component.css'
 })
-export class RegisterComponent {
+export class NivelesMantComponent {
 
 }
