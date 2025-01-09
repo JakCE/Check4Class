@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-header',
@@ -8,4 +10,10 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
   
+    constructor(
+        private location: Location
+    ){}
+    goBack(): void {
+        this.location.back();
+    }
 }

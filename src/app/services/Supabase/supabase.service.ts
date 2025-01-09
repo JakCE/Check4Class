@@ -13,6 +13,64 @@ export class SupabaseService {
     this.supabaseClient = createClient(environment.SUPABASE_URL, environment.SUPABASE_KEY)
   };
 
+  /// Niveles
+
+  // Obtener todos los registros
+  getAllNiveles(): Observable<any[]> {
+    return from(
+      this.supabaseClient.from('grados')
+      .select('*')
+      .then(({ data, error }: { data: any[] | null; error: any }) => {
+        if (error) throw error;
+        return data || [];
+      })
+    ) as Observable<any[]>;
+  }
+
+  // Obtener un registro por ID
+  getByIdNiveles(id: number): Observable<any> {
+    return from(
+      this.supabaseClient.from('grados')
+      .select('*').eq('id', id).single().then(({ data, error }: { data: any | null; error: any }) => {
+        if (error) throw error;
+        return data;
+      })
+    );
+  }
+
+  // Crear un nuevo registro
+  createNiveles(grado: any): Observable<any> {
+    return from(
+      this.supabaseClient.from('grados')
+      .insert([grado])
+      .then(({ data, error }: { data: any | null; error: any }) => {
+        if (error) throw error;
+        return data;
+      })
+    );
+  }
+
+  // Actualizar un registro
+  updateNiveles(id: number, grado: any): Observable<any> {
+    return from(
+      this.supabaseClient.from('grados').update(grado).eq('id', id).then(({ data, error }: { data: any | null; error: any }) => {
+        if (error) throw error;
+        return data;
+      })
+    );
+  }
+
+  // Eliminar un registro
+  deleteNiveles(id: number): Observable<any> {
+    return from(
+      this.supabaseClient.from('grados').delete().eq('id', id).then(({ data, error }: { data: any | null; error: any }) => {
+        if (error) throw error;
+        return data;
+      })
+    );
+  }
+
+  ///USUARIO CRUD
   // Crear un nuevo usuario con información adicional y grados
   createUser(email: string, password: string, userData: any, grados: number[]): Observable<any> {
     return from(this.supabaseClient.auth.signUp({ email, password })).pipe(
