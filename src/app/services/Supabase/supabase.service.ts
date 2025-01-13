@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createClient } from '@supabase/supabase-js'
 import { environment } from '../../../environments/environment.development';
-import { catchError, from, map, Observable, throwError } from 'rxjs';
+import { catchError, from, map, Observable, of, switchMap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -95,6 +95,70 @@ export class SupabaseService {
       })
     );
   }
+
+  createUser3(email: string, password: string, userData: any, grados: number[]): Observable<any> {
+    return from(this.supabaseClient.auth.signUp({ email, password })).pipe(
+        switchMap((authResult: any) => {
+            if (!authResult.data.user) {
+                throw new Error(authResult.error?.message || 'Error creando usuario');
+            }
+            console.log(authResult);
+            const userId = authResult.data.user.id;
+
+            // Insertar en usuarios
+            const insertUsuarios = this.supabaseClient
+                .from('usuarios')
+                .insert({ ...userData, id: userId });
+
+            // Insertar en usuarios_grados (si hay grados)
+            const insertGrados =
+                grados.length > 0
+                    ? this.supabaseClient.from('usuarios_grados').insert(
+                          grados.map((grado) => ({ usuario_id: userId, grado_id: grado }))
+                      )
+                    : Promise.resolve();
+
+            return from(Promise.all([insertUsuarios, insertGrados]));
+        }),
+        catchError((error) => {
+            console.error('Error en createUser:', error);
+            return throwError(() => new Error(error.message));
+        })
+    );
+  }
+
+  createUser2(email: string, password: string, userData: any, grados: number[]): Observable<any> {
+    return from(this.supabaseClient.auth.signUp({ email, password })).pipe(
+        switchMap((authResult: any) => {
+            if (!authResult.data?.user) {
+                throw new Error(authResult.error?.message || 'Error creando usuario');
+            }
+
+            const userId = authResult.data.user.id;
+
+            // Inserta en la tabla 'usuarios' primero
+            return from(
+                this.supabaseClient
+                    .from('usuarios')
+                    .insert({ ...userData, id: userId })
+            ).pipe(
+                switchMap(() => {
+                    // Luego inserta en 'usuarios_grados' si hay grados
+                    if (grados.length > 0) {
+                        const gradosData = grados.map((grado) => ({ usuario_id: userId, grado_id: grado }));
+                        return from(this.supabaseClient.from('usuarios_grados').insert(gradosData));
+                    }
+                    return of(null); // Si no hay grados, devuelve un observable vacío
+                })
+            );
+        }),
+        catchError((error) => {
+            console.error('Error en createUser2:', error);
+            return throwError(() => new Error(error.message));
+        })
+    );
+  }
+
 
   /*
   // Obtener todos los usuarios con sus grados
