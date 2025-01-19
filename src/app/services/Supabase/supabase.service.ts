@@ -159,101 +159,73 @@ export class SupabaseService {
     );
   }
 
+  getGradosPorUsuario(userId: string): Observable<any[]> {
+    return from(
+      this.supabaseClient
+        .from('usuarios_grados')
+        .select(`*, grados(*)`) // Relación con la tabla `grados` utilizando el FK
+        .eq('usuario_id', userId) // Filtra por el ID del usuario
+    ).pipe(
+      map((response: any) => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+        return response.data;
+      })
+    );
+  }
 
-  /*
-  // Obtener todos los usuarios con sus grados
-  getUsers(): Observable<any> {
+  getDataUser(id: string): Observable<any> {
     return from(
       this.supabaseClient
         .from('usuarios')
-        .select(`
-          *,
-          grados(grado_id)
-        `)
+        .select('*')
+        .eq('id', id)
+        .single()
     ).pipe(
-      map(({ data, error }) => {
-        if (error) throw new Error(error.message);
-        return data;
-      }),
-      catchError((error) => {
-        console.error('Error en getUsers:', error);
-        return throwError(() => new Error(error.message));
+      map((response: any) => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+        return response.data;
       })
     );
   }
 
-  // Actualizar un usuario
-  updateUser(userId: string, userData: any, grados: number[]): Observable<any> {
+  getMarcaciones(userId: any, claseId: any, fecha: string): Observable<any[]> {
     return from(
       this.supabaseClient
-        .from('usuarios')
-        .update(userData)
+        .from('marcaciones')
+        .select('*')
         .eq('user_id', userId)
+        .eq('clase_id', claseId)
+        .gte('fecha_marcacion', `${fecha}T00:00:00Z`) // Fecha desde el inicio del día
+        .lte('fecha_marcacion', `${fecha}T23:59:59Z`) // Fecha hasta el final del día
     ).pipe(
-      map(() => {
-        // Eliminar grados anteriores
-        const deleteGrados = this.supabaseClient.from('grados').delete().eq('user_id', userId);
-
-        // Insertar nuevos grados
-        const gradosData = grados.map((grado) => ({ user_id: userId, grado_id: grado }));
-        const insertGrados = this.supabaseClient.from('grados').insert(gradosData);
-
-        return Promise.all([deleteGrados, insertGrados]);
-      }),
-      catchError((error) => {
-        console.error('Error en updateUser:', error);
-        return throwError(() => new Error(error.message));
+      map((response: any) => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+        return response.data;
       })
     );
-  }
-
-  // Eliminar un usuario
-  deleteUser(userId: string): Observable<any> {
+  }  
+  
+  postMarcacion(marcacion: {
+    user_id: string;
+    clase_id: string;
+    fecha_marcacion: string; // Formato ISO: YYYY-MM-DDTHH:mm:ssZ
+    tipo_marcacion: 'entrada' | 'salida';
+  }): Observable<any> {
     return from(
-      this.supabaseClient
-        .from('grados')
-        .delete()
-        .eq('user_id', userId)
+      this.supabaseClient.from('marcaciones').insert(marcacion)
     ).pipe(
-      map(() =>
-        this.supabaseClient.from('usuarios').delete().eq('user_id', userId).then(() =>
-          this.supabaseClient.auth.admin.deleteUser(userId)
-        )
-      ),
-      catchError((error) => {
-        console.error('Error en deleteUser:', error);
-        return throwError(() => new Error(error.message));
+      map((response: any) => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+        return response.data;
       })
     );
   }
-
-  // Registrar una marcación
-  createMarcacion(userId: string, claseId: string, entrada: string, salida: string): Observable<any> {
-    return from(
-      this.supabaseClient.from('marcaciones').insert({ user_id: userId, clase_id: claseId, entrada, salida })
-    ).pipe(
-      map(({ error }) => {
-        if (error) throw new Error(error.message);
-        return { message: 'Marcación registrada exitosamente' };
-      }),
-      catchError((error) => {
-        console.error('Error en createMarcacion:', error);
-        return throwError(() => new Error(error.message));
-      })
-    );
-  }
-
-  // Obtener marcaciones por usuario
-  getMarcacionesByUser(userId: string): Observable<any> {
-    return from(this.supabaseClient.from('marcaciones').select('*').eq('user_id', userId)).pipe(
-      map(({ data, error }) => {
-        if (error) throw new Error(error.message);
-        return data;
-      }),
-      catchError((error) => {
-        console.error('Error en getMarcacionesByUser:', error);
-        return throwError(() => new Error(error.message));
-      })
-    );
-  }*/
 }

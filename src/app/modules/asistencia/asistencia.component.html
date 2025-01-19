@@ -16,33 +16,41 @@
                     <p class="text-gray-500 font-bold">{{ obtenerFechaActual() }}</p>
                 </div>
             </div>
-            <div class="px-8 pb-8">
+            <div class="px-8 pb-8" [formGroup]="formMarc">
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccione una clase</label>
-                <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option selected>Seleccione una clase</option>
-                    <option value="US">United States</option>
-                    <option value="CA">Canada</option>
-                    <option value="FR">France</option>
-                    <option value="DE">Germany</option>
+                <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" formControlName="clase">
+                    <option value="" selected>Seleccione una clase</option>
+                    @for (item of dataClases; track $index) {
+                        <option [value]="item.grado_id">{{ item.grados.titulo }}</option>
+                    }
                 </select>
             </div>
-            <div class="flex flex-col justify-center items-start gap-5 px-8">
-                <div class="w-full h-36 bg-sky-500 rounded-lg flex justify-start items-start shadow-lg bg-opacity-0 bg-cover bg-center bg-blend-overlay" style="background-image: url('https://img.freepik.com/fotos-premium/foto-horizontal-computadora-portatil-vasos-taza-cafe-copie-espacio-sobre-fondo-blanco_35674-8471.jpg');">
-                    <div class="flex justify-center items-center bg-[#3BBAEE] mt-2 px-5 py-1">
-                        <p class="text-lg font-bold text-white">Asistencia</p>
+            @if (validShowMarc()) {
+                <div class="flex flex-col justify-center items-start gap-5 px-8">
+                    <div class="w-full h-14 p-1 rounded-2xl flex justify-end items-center" [ngClass]="{ 'bg-[#11b427]' : existReg('entrada'), 'bg-sky-300' : !existReg('entrada') }">
+                        <div (click)="!existReg('entrada') ? registrarMarcacion('entrada') : ''" class="w-1/2 h-full rounded-xl cursor-pointer bg-white flex justify-center items-center">
+                            <div class="text-center">Entrada</div>
+                        </div>
+                        @if (existReg('entrada')) {
+                            <div class="w-1/2 h-full flex flex-col justify-center items-center text-center text-white">
+                                <small class="bg-transparent">{{ objDateEntrada.fecha }}</small>
+                                <span class="font-bold text-lg">{{ objDateEntrada.hora }}</span>
+                            </div>
+                        }
+                    </div>
+                    <div class="w-full h-14 p-1 rounded-2xl flex justify-end items-center" [ngClass]="{ 'bg-[#11b427]' : existReg('salida'), 'bg-sky-300' : !existReg('salida') }">
+                        <div (click)="!existReg('salida') ? registrarMarcacion('salida') : ''" class="w-1/2 h-full rounded-xl cursor-pointer bg-white flex justify-center items-center">
+                            <div class="text-center">Salida</div>
+                        </div>
+                        @if (existReg('salida')) {
+                            <div class="w-1/2 h-full flex flex-col justify-center items-center text-center text-white">
+                                <small class="bg-transparent">{{ objDateSalida.fecha }}</small>
+                                <span class="font-bold text-lg">{{ objDateSalida.hora }}</span>
+                            </div>
+                        }
                     </div>
                 </div>
-                <div class="w-full h-36 bg-sky-500 rounded-lg flex justify-end items-start shadow-lg bg-opacity-0 bg-cover bg-center bg-blend-overlay" style="background-image: url(https://www.shutterstock.com/image-vector/3d-male-doctor-avatar-cartoon-600nw-2383943243.jpg);">
-                    <div class="flex justify-center items-center bg-[#3BBAEE] mt-2 px-5 py-1">
-                        <p class="text-lg font-bold text-white">Carnet</p>
-                    </div>
-                </div>
-                <!-- <div class="w-full h-36 bg-sky-500 rounded-lg flex justify-start items-start shadow-lg">
-                    <div class="flex justify-center items-center bg-[#3BBAEE] mt-2 px-5 py-1">
-                        <p class="text-lg font-bold text-white">Encuestas</p>
-                    </div>
-                </div> -->
-            </div>
+            }
         </div>
     </div>
 </div>

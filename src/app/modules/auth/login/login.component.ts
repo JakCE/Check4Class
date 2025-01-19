@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit{
       this.toastService.showToast('success', 'Inicio de sesión exitoso!');
       this.router.navigateByUrl('/app');
     }
-    console.log(authResponse);
+    //console.log(authResponse);
   }
 
   async signUp(){
